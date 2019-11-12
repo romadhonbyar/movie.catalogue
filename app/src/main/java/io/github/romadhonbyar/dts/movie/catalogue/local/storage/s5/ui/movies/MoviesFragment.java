@@ -1,8 +1,11 @@
 package io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.ui.movies;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,14 +15,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,9 +36,11 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 
+import io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.MainActivity;
 import io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.R;
 import io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.api.RetrofitClient;
 import io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.helper.LanguageActivity;
@@ -50,6 +59,10 @@ public class MoviesFragment extends Fragment {
     private MoviesAdapter adapter;
     private List<MoviesModelResults> pList = new ArrayList<>();
     private SearchView searchView;
+    private ProgressBar pLoad;
+    private String lang;
+    private TextView emptyView;
+    private MenuItem search;
 
     public MoviesFragment() {
 
@@ -78,9 +91,9 @@ public class MoviesFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        ProgressBar pLoad = Objects.requireNonNull(getActivity()).findViewById(R.id.pbLoading);
-
-        String lang = SharedPrefManager.getInstance(getActivity()).getLang();
+        pLoad = Objects.requireNonNull(getActivity()).findViewById(R.id.pbLoading);
+        emptyView = Objects.requireNonNull(getActivity()).findViewById(R.id.empty_view);
+        lang = SharedPrefManager.getInstance(getActivity()).getLang();
 
         if (savedInstanceState != null) {
             if (getArrayList() != null) {
@@ -119,6 +132,8 @@ public class MoviesFragment extends Fragment {
                 }
             }
         }
+
+        emptyView.setOnClickListener(v -> getFragmentPage(new MoviesFragment()));
     }
 
     private void loadData(String language, ProgressBar pLoad) {
@@ -165,7 +180,16 @@ public class MoviesFragment extends Fragment {
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
 
-                    Toast.makeText(getContext(), R.string.success, Toast.LENGTH_LONG).show();
+
+                    if (response.body().getTotalResults() == 0) {
+                        emptyView.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                        Toast.makeText(getContext(), R.string.mes_no_data, Toast.LENGTH_LONG).show();
+                    } else {
+                        emptyView.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        Toast.makeText(getContext(), R.string.success, Toast.LENGTH_LONG).show();
+                    }
                     pLoad.setVisibility(View.GONE);
                 } else {
                     Toast.makeText(getContext(), R.string.failed, Toast.LENGTH_LONG).show();
@@ -185,7 +209,7 @@ public class MoviesFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.main_menu, menu);
 
-        MenuItem search = menu.findItem(R.id.search);
+        search = menu.findItem(R.id.search);
         searchView = (SearchView) MenuItemCompat.getActionView(search);
         search(searchView);
 
@@ -205,7 +229,17 @@ public class MoviesFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+
+                pLoad.setVisibility(View.VISIBLE);
+                if (Objects.equals(lang, "in")) {
+                    loadDataSearch("id-ID", pLoad, query);
+                } else {
+                    loadDataSearch("en-US", pLoad, query);
+                }
+
+                hideKeyboard(searchView);
+
+                return true;
             }
 
             @Override
@@ -240,5 +274,19 @@ public class MoviesFragment extends Fragment {
     private String getArrayList() {
         SharedPreferences prefs = Objects.requireNonNull(getActivity()).getSharedPreferences("your_prefes_movie", Context.MODE_PRIVATE);
         return prefs.getString("your_prefes_movie", null);
+    }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) Objects.requireNonNull(getActivity()).getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    private void getFragmentPage(Fragment fragment) {
+        if (fragment != null) {
+            ((FragmentActivity) Objects.requireNonNull(getContext())).getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.page_container, fragment)
+                    .commit();
+        }
     }
 }

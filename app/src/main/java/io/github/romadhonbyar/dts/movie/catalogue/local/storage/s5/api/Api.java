@@ -40,4 +40,9 @@ public interface Api {
     Call<MoviesModel> getMovieSearch(@Query("api_key") String api_key,
                                      @Query("language") String language,
                                      @Query("query") String query);
+    @Headers("Content-Type: application/json")
+    @GET("search/tv")
+    Call<TVShowsModel> getTVSearch(@Query("api_key") String api_key,
+                                     @Query("language") String language,
+                                     @Query("query") String query);
 }

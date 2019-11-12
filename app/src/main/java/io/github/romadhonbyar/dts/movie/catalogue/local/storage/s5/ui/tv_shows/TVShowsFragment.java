@@ -1,5 +1,6 @@
 package io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.ui.tv_shows;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,7 +13,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,6 +39,10 @@ import io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.R;
 import io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.api.RetrofitClient;
 import io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.helper.LanguageActivity;
 import io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.helper.SharedPrefManager;
+import io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.ui.movies.MoviesFragment;
+import io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.ui.movies.adapter.MoviesAdapter;
+import io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.ui.movies.model.main.MoviesModel;
+import io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.ui.movies.model.main.MoviesModelResults;
 import io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.ui.tv_shows.adapter.TVShowsAdapter;
 import io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.ui.tv_shows.model.main.TVShowsModel;
 import io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.ui.tv_shows.model.main.TVShowsModelResults;
@@ -48,6 +56,11 @@ public class TVShowsFragment extends Fragment {
     private RecyclerView recyclerView;
     private TVShowsAdapter adapter;
     private List<TVShowsModelResults> pList = new ArrayList<>();
+    private SearchView searchView;
+    private ProgressBar pLoad;
+    private String lang;
+    private TextView emptyView;
+    private MenuItem search;
 
     public TVShowsFragment() {
 
@@ -76,9 +89,9 @@ public class TVShowsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        ProgressBar pLoad = Objects.requireNonNull(getActivity()).findViewById(R.id.pbLoading);
-
-        String lang = SharedPrefManager.getInstance(getActivity()).getLang();
+        pLoad = Objects.requireNonNull(getActivity()).findViewById(R.id.pbLoading);
+        emptyView = Objects.requireNonNull(getActivity()).findViewById(R.id.empty_view);
+        lang = SharedPrefManager.getInstance(getActivity()).getLang();
 
         if (savedInstanceState != null) {
             if (getArrayList() != null) {
@@ -117,6 +130,8 @@ public class TVShowsFragment extends Fragment {
                 }
             }
         }
+
+        emptyView.setOnClickListener(v -> getFragmentPage(new TVShowsFragment()));
     }
 
     private void loadData(String language, ProgressBar pLoad) {
@@ -134,6 +149,45 @@ public class TVShowsFragment extends Fragment {
                     adapter.notifyDataSetChanged();
 
                     Toast.makeText(getContext(), R.string.success, Toast.LENGTH_LONG).show();
+                    pLoad.setVisibility(View.GONE);
+                } else {
+                    Toast.makeText(getContext(), R.string.failed, Toast.LENGTH_LONG).show();
+                    pLoad.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<TVShowsModel> call, @NonNull Throwable t) {
+                Log.e("debug", "onFailure: ERROR > " + t.toString());
+                pLoad.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void loadDataSearch(String language, ProgressBar pLoad, String query) {
+
+        RetrofitClient.getInstance().getApi().getTVSearch(API_KEY, language, query).enqueue(new Callback<TVShowsModel>() {
+            @Override
+            public void onResponse(@NonNull Call<TVShowsModel> call, @NonNull Response<TVShowsModel> response) {
+                if (response.code() == 200 && response.isSuccessful()) {
+                    final List<TVShowsModelResults> all = Objects.requireNonNull(response.body()).getResults();
+
+                    saveArrayList(all);
+
+                    adapter = new TVShowsAdapter(Objects.requireNonNull(getContext()), all);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+
+
+                    if (response.body().getTotalResults() == 0) {
+                        emptyView.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                        Toast.makeText(getContext(), R.string.mes_no_data, Toast.LENGTH_LONG).show();
+                    } else {
+                        emptyView.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        Toast.makeText(getContext(), R.string.success, Toast.LENGTH_LONG).show();
+                    }
                     pLoad.setVisibility(View.GONE);
                 } else {
                     Toast.makeText(getContext(), R.string.failed, Toast.LENGTH_LONG).show();
@@ -173,11 +227,22 @@ public class TVShowsFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+
+                pLoad.setVisibility(View.VISIBLE);
+                if (Objects.equals(lang, "in")) {
+                    loadDataSearch("id-ID", pLoad, query);
+                } else {
+                    loadDataSearch("en-US", pLoad, query);
+                }
+
+                hideKeyboard(searchView);
+
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                Log.e("Sayang: ", newText);
                 adapter.getFilter().filter(newText);
                 return true;
             }
@@ -207,5 +272,19 @@ public class TVShowsFragment extends Fragment {
     private String getArrayList() {
         SharedPreferences prefs = Objects.requireNonNull(getActivity()).getSharedPreferences("your_prefes_tv", Context.MODE_PRIVATE);
         return prefs.getString("your_prefes_tv", null);
+    }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) Objects.requireNonNull(getActivity()).getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    private void getFragmentPage(Fragment fragment) {
+        if (fragment != null) {
+            ((FragmentActivity) Objects.requireNonNull(getContext())).getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.page_container, fragment)
+                    .commit();
+        }
     }
 }
