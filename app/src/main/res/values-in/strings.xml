@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">Katalog Film</string>
+    <string name="title_movies">Film</string>
+    <string name="title_tv_show">Acara TV</string>
+    <string name="name_movies">Nama Film</string>
+    <string name="description_movies">Deskripsi Film</string>
+
+    <string name="overview">Gambaran</string>
+    <string name="description">Deskripsi</string>
+
+    <string name="movie_poster">Poster film</string>
+    <string name="tv_poster">Poster TV</string>
+    <string name="facts">Fakta</string>
+
+    <string name="title">Judul</string>
+    <string name="status">Status</string>
+    <string name="original_language">Bahasa asli</string>
+    <string name="runtime">Waktu putar</string>
+    <string name="budget">Anggaran</string>
+    <string name="revenue">Pendapatan</string>
+    <string name="genres">Genre</string>
+    <string name="image_view_status">Image View Status</string>
+    <string name="image_view_language">Image View Language</string>
+    <string name="image_view_runtime">Image View Runtime</string>
+    <string name="image_view_budget">Image View Budget</string>
+    <string name="image_view_revenue">Image View Revenue</string>
+    <string name="image_view_genres">Image View Genres</string>
+
+    <string name="menu_language_settings">Atur Bahasa</string>
+    <string name="change_language_settings">Bahasa</string>
+    <string name="lang_indonesian">Bahasa Indonesia</string>
+    <string name="lang_english">Bahasa Inggris</string>
+    <string name="select_a_language">Pilih bahasa</string>
+
+    <string name="tv_shows">Acara TV</string>
+    <string name="movies">Film</string>
+    <string name="favorite">Favorit</string>
+
+    <string name="success">Berhasil mengambil data!</string>
+    <string name="failed">Gagal mengambil data!</string>
+    <string name="connect">Tidak ada koneksi!</string>
+
+    <string name="detail_movie">Detail Film</string>
+    <string name="detail_tv_show">Detail Acara TV</string>
+
+    <string name="detail">Rincian</string>
+    <string name="delete">Hapus</string>
+    <string name="option">Pilihan</string>
+
+    <string name="mes_add">Berhasil ditambah ke favorit!</string>
+    <string name="mes_delete">Berhasil dihapus dari favorit!</string>
+
+    <string name="mes_no_data">Tidak ada data!</string>
+</resources>

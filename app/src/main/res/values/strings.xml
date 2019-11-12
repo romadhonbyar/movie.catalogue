@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">Movie Catalogue</string>
+    <string name="title_movies">Movies</string>
+    <string name="title_tv_show">TV Shows</string>
+    <string name="name_movies">Movie Name</string>
+    <string name="description_movies">Movie Description</string>
+
+    <string name="overview">Overview</string>
+    <string name="description">Description</string>
+
+    <string name="movie_poster">Movie poster</string>
+    <string name="tv_poster">TV poster</string>
+    <string name="facts">Facts</string>
+
+    <string name="title">Title</string>
+    <string name="status">Status</string>
+    <string name="original_language">Original Language</string>
+    <string name="runtime">Runtime</string>
+    <string name="budget">Budget</string>
+    <string name="revenue">Revenue</string>
+    <string name="genres">Genres</string>
+    <string name="image_view_status">Image View Status</string>
+    <string name="image_view_language">Image View Language</string>
+    <string name="image_view_runtime">Image View Runtime</string>
+    <string name="image_view_budget">Image View Budget</string>
+    <string name="image_view_revenue">Image View Revenue</string>
+    <string name="image_view_genres">Image View Genres</string>
+
+    <string name="menu_language_settings">Setting Language</string>
+    <string name="change_language_settings">Language</string>
+    <string name="lang_indonesian">Indonesian</string>
+    <string name="lang_english">English</string>
+    <string name="select_a_language">Select a language</string>
+
+    <string name="tv_shows">TV Shows</string>
+    <string name="movies">Movies</string>
+    <string name="favorite">Favorite</string>
+
+    <string name="success">Successfully retrieved data!</string>
+    <string name="failed">Failed retrieve data!</string>
+    <string name="connect">No Connection!</string>
+
+    <string name="detail_movie">Movie details</string>
+    <string name="detail_tv_show">TV Show details</string>
+
+    <string name="detail">Details</string>
+    <string name="delete">Delete</string>
+    <string name="option">Option</string>
+
+    <string name="mes_add">Added to favorites successfully!</string>
+    <string name="mes_delete">Successfully removed from favorites!</string>
+
+    <string name="mes_no_data">No data!</string>
+</resources>
