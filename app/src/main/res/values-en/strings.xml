@@ -51,4 +51,6 @@
     <string name="mes_delete">Successfully removed from favorites!</string>
 
     <string name="mes_no_data">No data!</string>
+    <string name="appwidget_text">STAR WARS BANNER</string>
+    <string name="add_widget">Add widget</string>
 </resources>

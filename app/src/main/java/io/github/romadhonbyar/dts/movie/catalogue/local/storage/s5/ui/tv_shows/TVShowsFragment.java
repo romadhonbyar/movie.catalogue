@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,7 +43,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.BuildConfig.API_KEY;
-
 
 public class TVShowsFragment extends Fragment {
     private RecyclerView recyclerView;
@@ -128,7 +129,8 @@ public class TVShowsFragment extends Fragment {
 
                     saveArrayList(all);
 
-                    recyclerView.setAdapter(new TVShowsAdapter(Objects.requireNonNull(getContext()), all));
+                    adapter = new TVShowsAdapter(Objects.requireNonNull(getContext()), all);
+                    recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
 
                     Toast.makeText(getContext(), R.string.success, Toast.LENGTH_LONG).show();
@@ -150,6 +152,11 @@ public class TVShowsFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.main_menu, menu);
+
+        MenuItem search = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
+        search(searchView);
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -160,6 +167,21 @@ public class TVShowsFragment extends Fragment {
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void search(SearchView searchView) {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return true;
+            }
+        });
     }
 
     public void onPrepareOptionsMenu(Menu menu) {

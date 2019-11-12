@@ -9,6 +9,8 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +27,7 @@ import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.R;
@@ -36,16 +39,17 @@ import io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.ui.tv_shows.m
 
 import static io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.api.Global.PathImage;
 
-
-public class TVShowsAdapter extends RecyclerView.Adapter<TVShowsAdapter.RvViewHolder> {
+public class TVShowsAdapter extends RecyclerView.Adapter<TVShowsAdapter.RvViewHolder> implements Filterable {
     private Context mCtx;
     private List<TVShowsModelResults> pList;
+    private List<TVShowsModelResults> filteredpList;
     private AppDatabase db;
     private Cursor res;
 
     public TVShowsAdapter(Context mCtx, List<TVShowsModelResults> pList) {
         this.mCtx = mCtx;
         this.pList = pList;
+        this.filteredpList = pList;
         db = Room.databaseBuilder(
                 mCtx.getApplicationContext(),
                 AppDatabase.class, "favorite_db").allowMainThreadQueries().build();
@@ -53,7 +57,7 @@ public class TVShowsAdapter extends RecyclerView.Adapter<TVShowsAdapter.RvViewHo
 
     @Override
     public int getItemCount() {
-        return pList.size();
+        return filteredpList.size();
     }
 
     class RvViewHolder extends RecyclerView.ViewHolder {
@@ -80,7 +84,7 @@ public class TVShowsAdapter extends RecyclerView.Adapter<TVShowsAdapter.RvViewHo
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final RvViewHolder holder, int position) {
-        TVShowsModelResults tv = pList.get(position);
+        TVShowsModelResults tv = filteredpList.get(position);
 
         Glide.with(holder.itemView.getContext())
                 .load(PathImage + tv.getPosterPath())
@@ -159,5 +163,34 @@ public class TVShowsAdapter extends RecyclerView.Adapter<TVShowsAdapter.RvViewHo
                     .replace(R.id.page_container, fragment)
                     .commit();
         }
+    }
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    filteredpList = pList;
+                } else {
+                    List<TVShowsModelResults> filteredList = new ArrayList<>();
+                    for (TVShowsModelResults myData : pList) {
+                        if (myData.getOriginalName().toLowerCase().contains(charString) || myData.getOverview().toLowerCase().contains(charString) || myData.getName().toLowerCase().contains(charString)) {
+                            filteredList.add(myData);
+                        }
+                    }
+                    filteredpList = filteredList;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filteredpList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                filteredpList = (ArrayList<TVShowsModelResults>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }

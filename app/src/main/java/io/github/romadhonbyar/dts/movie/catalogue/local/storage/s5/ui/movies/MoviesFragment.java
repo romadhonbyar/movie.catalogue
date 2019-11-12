@@ -1,6 +1,5 @@
 package io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.ui.movies;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,8 +28,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -48,12 +45,11 @@ import retrofit2.Response;
 
 import static io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.BuildConfig.API_KEY;
 
-
 public class MoviesFragment extends Fragment {
     private RecyclerView recyclerView;
     private MoviesAdapter adapter;
     private List<MoviesModelResults> pList = new ArrayList<>();
-    private List<MoviesModelResults> mArrayList;
+    private SearchView searchView;
 
     public MoviesFragment() {
 
@@ -135,12 +131,36 @@ public class MoviesFragment extends Fragment {
 
                     saveArrayList(all);
 
-                    /*
-                    recyclerView.setAdapter(new MoviesAdapter(Objects.requireNonNull(getContext()), all));
+                    adapter = new MoviesAdapter(Objects.requireNonNull(getContext()), all);
+                    recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
-                    */
 
-                    /* Setting Pencarian */
+                    Toast.makeText(getContext(), R.string.success, Toast.LENGTH_LONG).show();
+                    pLoad.setVisibility(View.GONE);
+                } else {
+                    Toast.makeText(getContext(), R.string.failed, Toast.LENGTH_LONG).show();
+                    pLoad.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MoviesModel> call, @NonNull Throwable t) {
+                Log.e("debug", "onFailure: ERROR > " + t.toString());
+                pLoad.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void loadDataSearch(String language, ProgressBar pLoad, String query) {
+
+        RetrofitClient.getInstance().getApi().getMovieSearch(API_KEY, language, query).enqueue(new Callback<MoviesModel>() {
+            @Override
+            public void onResponse(@NonNull Call<MoviesModel> call, @NonNull Response<MoviesModel> response) {
+                if (response.code() == 200 && response.isSuccessful()) {
+                    final List<MoviesModelResults> all = Objects.requireNonNull(response.body()).getResults();
+
+                    saveArrayList(all);
+
                     adapter = new MoviesAdapter(Objects.requireNonNull(getContext()), all);
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
@@ -166,7 +186,7 @@ public class MoviesFragment extends Fragment {
         inflater.inflate(R.menu.main_menu, menu);
 
         MenuItem search = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
+        searchView = (SearchView) MenuItemCompat.getActionView(search);
         search(searchView);
 
         super.onCreateOptionsMenu(menu, inflater);
@@ -190,6 +210,7 @@ public class MoviesFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                Log.e("Sayang: ", newText);
                 adapter.getFilter().filter(newText);
                 return true;
             }

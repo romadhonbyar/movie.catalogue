@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +38,6 @@ import io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.ui.movies.Mov
 import io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.ui.movies.model.main.MoviesModelResults;
 
 import static io.github.romadhonbyar.dts.movie.catalogue.local.storage.s5.api.Global.PathImage;
-
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.RvViewHolder> implements Filterable {
     private Context mCtx;
@@ -167,35 +165,23 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.RvViewHold
         }
     }
 
-
-
     @Override
     public Filter getFilter() {
-
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
-
                 String charString = charSequence.toString();
-
                 if (charString.isEmpty()) {
-
                     filteredpList = pList;
                 } else {
-
                     List<MoviesModelResults> filteredList = new ArrayList<>();
-
-                    for (MoviesModelResults androidVersion : pList) {
-
-                        if (androidVersion.getOriginalTitle().toLowerCase().contains(charString) || androidVersion.getOverview().toLowerCase().contains(charString) || androidVersion.getTitle().toLowerCase().contains(charString)) {
-
-                            filteredList.add(androidVersion);
+                    for (MoviesModelResults myData : pList) {
+                        if (myData.getOriginalTitle().toLowerCase().contains(charString) || myData.getOverview().toLowerCase().contains(charString) || myData.getTitle().toLowerCase().contains(charString)) {
+                            filteredList.add(myData);
                         }
                     }
-
                     filteredpList = filteredList;
                 }
-
                 FilterResults filterResults = new FilterResults();
                 filterResults.values = filteredpList;
                 return filterResults;
@@ -208,5 +194,4 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.RvViewHold
             }
         };
     }
-
 }
