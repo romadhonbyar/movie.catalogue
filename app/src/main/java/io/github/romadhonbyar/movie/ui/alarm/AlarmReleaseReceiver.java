@@ -42,7 +42,7 @@ public class AlarmReleaseReceiver extends BroadcastReceiver {
                 .setTag(DISPATCHER_TAG)
                 .setRecurring(false)
                 .setLifetime(Lifetime.UNTIL_NEXT_BOOT)
-                .setTrigger(Trigger.executionWindow(0, 1))
+                .setTrigger(Trigger.executionWindow(0, 5))
                 .setReplaceCurrent(true)
                 .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
                 .setConstraints(Constraint.ON_ANY_NETWORK)
@@ -81,6 +81,6 @@ public class AlarmReleaseReceiver extends BroadcastReceiver {
             alarmManager.cancel(pendingIntent);
         }
 
-        Toast.makeText(context, context.getString(R.string.message_daily_repeat_cancel), Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, context.getString(R.string.message_daily_repeat_cancel), Toast.LENGTH_LONG).show();
     }
 }

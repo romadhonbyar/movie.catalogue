@@ -16,7 +16,7 @@ public class Global {
     public static final int SECOND_daily = 0;
 
     /* Control Reminder Release (08:00) */
-    public static final int HOUR_OF_DAY_release = 5;
-    public static final int MINUTE_release = 45;
+    public static final int HOUR_OF_DAY_release = 6;
+    public static final int MINUTE_release = 34;
     public static final int SECOND_release = 0;
 }

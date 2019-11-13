@@ -1,13 +1,12 @@
 package io.github.romadhonbyar.movie.ui.alarm;
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Movie;
+import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -21,10 +20,7 @@ import androidx.core.content.ContextCompat;
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,26 +35,22 @@ import retrofit2.Response;
 
 import static io.github.romadhonbyar.movie.BuildConfig.API_KEY;
 import static io.github.romadhonbyar.movie.helper.FormatData.dateFormat;
-import static io.github.romadhonbyar.movie.ui.alarm.AlarmReleaseReceiver.ID_REPEATING_release;
 
 public class AlarmReleaseService extends JobService {
-    private static int ID_REPEATING_release = 111;
-    private List<MovieReleaseResultModel> mData = new ArrayList<>();
-
     private void loadData(JobParameters job) {
         String dateNow = dateFormat();
-        Log.e("Hai", "has been release today!" + dateNow);
-
         RetrofitClient.getInstance().getApi().getMovieRelease(API_KEY, dateNow, dateNow).enqueue(new Callback<MovieReleaseModel>() {
             @Override
             public void onResponse(@NonNull Call<MovieReleaseModel> call, @NonNull Response<MovieReleaseModel> response) {
                 if (response.code() == 200 && response.isSuccessful()) {
                     MovieReleaseModel myData = Objects.requireNonNull(response.body());
                     try {
-                        mData = myData.getResults();
-                        String message_desc = mData.get(0).getOriginalTitle() + " has been release today!";
-                        showAlarmNotification(getApplicationContext(), mData.get(0).getOriginalTitle(), message_desc, ID_REPEATING_release);
-                        jobFinished(job, false);
+                        //Membatasi jumlah notif sebanyak 5 data
+                        for (int a=0; a < 5; a++){
+                            String message_desc = myData.getResults().get(a).getOriginalTitle() + " has been release today!";
+                            showAlarmNotification(getApplicationContext(), myData.getResults().get(a).getOriginalTitle(), message_desc, a);
+                            jobFinished(job, false);
+                        }
                     }catch (Exception e){
                         jobFinished(job, true);
                         e.printStackTrace();
@@ -83,11 +75,12 @@ public class AlarmReleaseService extends JobService {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, id_daily, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationManager notificationManagerCompat = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_local_movies_black_24dp)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setAutoCancel(true)
+                .setPriority(Notification.PRIORITY_HIGH)
                 .setContentIntent(pendingIntent)
                 .setColor(ContextCompat.getColor(context, android.R.color.transparent))
                 .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
