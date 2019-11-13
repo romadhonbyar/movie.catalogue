@@ -38,7 +38,7 @@ import java.util.Objects;
 import io.github.romadhonbyar.movie.R;
 import io.github.romadhonbyar.movie.api.RetrofitClient;
 import io.github.romadhonbyar.movie.helper.SharedPrefManager;
-import io.github.romadhonbyar.movie.ui.other.SettingsActivity;
+import io.github.romadhonbyar.movie.ui.alarm.SettingsActivity;
 import io.github.romadhonbyar.movie.ui.tv_shows.adapter.TVShowsAdapter;
 import io.github.romadhonbyar.movie.ui.tv_shows.model.main.TVShowsModel;
 import io.github.romadhonbyar.movie.ui.tv_shows.model.main.TVShowsModelResults;

@@ -36,7 +36,7 @@ import io.github.romadhonbyar.movie.api.RetrofitClient;
 import io.github.romadhonbyar.movie.helper.SharedPrefManager;
 import io.github.romadhonbyar.movie.ui.favorite.db.AppDatabase;
 import io.github.romadhonbyar.movie.ui.favorite.db.Fav;
-import io.github.romadhonbyar.movie.ui.other.SettingsActivity;
+import io.github.romadhonbyar.movie.ui.alarm.SettingsActivity;
 import io.github.romadhonbyar.movie.ui.tv_shows.model.detail.TVShowsDetailModel;
 import retrofit2.Call;
 import retrofit2.Callback;

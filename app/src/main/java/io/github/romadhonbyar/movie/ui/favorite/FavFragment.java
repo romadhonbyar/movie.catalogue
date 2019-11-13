@@ -28,7 +28,7 @@ import io.github.romadhonbyar.movie.R;
 import io.github.romadhonbyar.movie.ui.favorite.adapter.FavAdapter;
 import io.github.romadhonbyar.movie.ui.favorite.db.AppDatabase;
 import io.github.romadhonbyar.movie.ui.favorite.db.Fav;
-import io.github.romadhonbyar.movie.ui.other.SettingsActivity;
+import io.github.romadhonbyar.movie.ui.alarm.SettingsActivity;
 
 public class FavFragment extends Fragment {
     private RecyclerView recyclerView;

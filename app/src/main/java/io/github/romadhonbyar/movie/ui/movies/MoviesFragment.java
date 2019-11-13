@@ -41,7 +41,7 @@ import io.github.romadhonbyar.movie.helper.SharedPrefManager;
 import io.github.romadhonbyar.movie.ui.movies.adapter.MoviesAdapter;
 import io.github.romadhonbyar.movie.ui.movies.model.main.MoviesModel;
 import io.github.romadhonbyar.movie.ui.movies.model.main.MoviesModelResults;
-import io.github.romadhonbyar.movie.ui.other.SettingsActivity;
+import io.github.romadhonbyar.movie.ui.alarm.SettingsActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

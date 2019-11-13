@@ -1,4 +1,4 @@
-package io.github.romadhonbyar.movie.ui.other;
+package io.github.romadhonbyar.movie.ui.alarm;
 
 import android.content.Context;
 import android.content.Intent;
@@ -31,7 +31,7 @@ public class SettingsActivity extends AppCompatActivity {
     private Switch reRelease;
     private Switch reDaily;
 
-    private AlarmReceiver alarmReceiver;
+    private AlarmDailyReceiver alarmDailyReceiver;
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -64,7 +64,7 @@ public class SettingsActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);
 
-        alarmReceiver = new AlarmReceiver();
+        alarmDailyReceiver = new AlarmDailyReceiver();
 
         RadioButton rb_g1 = findViewById(R.id.radio_indonesian);
         RadioButton rb_g2 = findViewById(R.id.radio_english);
@@ -104,13 +104,13 @@ public class SettingsActivity extends AppCompatActivity {
                 editor.putString(SHARED_SETTING_RELEASE, "on");
                 editor.apply();
 
-                alarmReceiver.setRepeatingAlarm(this, AlarmReceiver.TYPE_REPEATING, repeatTimeRelease, "AAA miss you!");
+                //alarmDailyReceiver.setRepeatingAlarm(this, AlarmDailyReceiver.TYPE_REPEATING, repeatTimeRelease, "AAA miss you!");
             } else {
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString(SHARED_SETTING_RELEASE, "off");
                 editor.apply();
 
-                alarmReceiver.cancelAlarm(this, AlarmReceiver.TYPE_REPEATING);
+                //alarmDailyReceiver.cancelAlarm(this, AlarmDailyReceiver.TYPE_REPEATING);
             }
         });
 
@@ -119,13 +119,13 @@ public class SettingsActivity extends AppCompatActivity {
             editor.putString(SHARED_SETTING_RELEASE, "on");
             editor.apply();
 
-                alarmReceiver.setRepeatingAlarm(this, AlarmReceiver.TYPE_REPEATING, repeatTimeRelease, "AAA miss you!");
+                //alarmDailyReceiver.setRepeatingAlarm(this, AlarmDailyReceiver.TYPE_REPEATING, repeatTimeRelease, "AAA miss you!");
         } else {
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString(SHARED_SETTING_RELEASE, "off");
             editor.apply();
 
-            alarmReceiver.cancelAlarm(this, AlarmReceiver.TYPE_REPEATING);
+            //alarmDailyReceiver.cancelAlarm(this, AlarmDailyReceiver.TYPE_REPEATING);
         }
 
         reDaily = findViewById(R.id.switchDaily);
@@ -143,13 +143,13 @@ public class SettingsActivity extends AppCompatActivity {
                 editor.putString(SHARED_SETTING_DAILY, "on");
                 editor.apply();
 
-                alarmReceiver.setRepeatingAlarm(this, AlarmReceiver.TYPE_REPEATING, repeatTimeDaily, "I miss you!");
+                alarmDailyReceiver.setRepeatingAlarm(SettingsActivity.this);
             } else {
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString(SHARED_SETTING_DAILY, "off");
                 editor.apply();
 
-                alarmReceiver.cancelAlarm(this, AlarmReceiver.TYPE_REPEATING);
+                alarmDailyReceiver.cancelAlarm(this);
             }
         });
 
@@ -158,13 +158,13 @@ public class SettingsActivity extends AppCompatActivity {
             editor.putString(SHARED_SETTING_DAILY, "on");
             editor.apply();
 
-            alarmReceiver.setRepeatingAlarm(this, AlarmReceiver.TYPE_REPEATING, repeatTimeDaily, "I miss you!");
+            alarmDailyReceiver.setRepeatingAlarm(SettingsActivity.this);
         } else {
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString(SHARED_SETTING_DAILY, "off");
             editor.apply();
 
-            alarmReceiver.cancelAlarm(this, AlarmReceiver.TYPE_REPEATING);
+            alarmDailyReceiver.cancelAlarm(this);
         }
     }
 

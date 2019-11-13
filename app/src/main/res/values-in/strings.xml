@@ -53,6 +53,15 @@
     <string name="appwidget_text">Favorit Saya</string>
     <string name="add_widget">Tambah widget</string>
 
+    <string name="message_daily">Ayo, cari film yang Kamu suka!</string>
+    <string name="message_daily_repeat">Alarm berulang diatur: </string>
+    <string name="message_daily_repeat_cancel">Alarm berulang dibatalkan!</string>
+
+    <string name="reminder">Pengingat</string>
+    <string name="reminder_release">Pengingat rilis</string>
+    <string name="reminder_release_desc">Pengingat menunjukkan film yang dirilis</string>
+    <string name="reminder_daily">Pengingat Harian</string>
+    <string name="reminder_daily_desc">Pengingat untuk kembali ke aplikasi</string>
 
     <!--
     <string name="default_notification_channel">Subscribed</string>

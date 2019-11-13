@@ -1,4 +1,4 @@
-package io.github.romadhonbyar.movie.ui.other;
+package io.github.romadhonbyar.movie.ui.alarm;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 

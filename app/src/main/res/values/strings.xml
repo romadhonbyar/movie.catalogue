@@ -53,6 +53,16 @@
     <string name="appwidget_text">My Favorite</string>
     <string name="add_widget">Add widget</string>
 
+    <string name="message_daily">Come on, find the movie you like!</string>
+    <string name="message_daily_repeat">Repeating alarm set up: </string>
+    <string name="message_daily_repeat_cancel">Repeating alarm canceled!</string>
+
+    <string name="reminder">Reminder</string>
+    <string name="reminder_release">Release Reminder</string>
+    <string name="reminder_release_desc">Reminder showing the movie that released</string>
+    <string name="reminder_daily">Daily Reminder</string>
+    <string name="reminder_daily_desc">Reminder for return to app</string>
+
     <!--
     <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
