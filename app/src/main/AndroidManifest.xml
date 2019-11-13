@@ -59,12 +59,25 @@
             android:enabled="true"
             android:exported="true" />
 
+        <receiver android:name=".ui.alarm.AlarmReleaseReceiver"
+            android:enabled="true"
+            android:exported="true"/>
+
+        <service
+            android:name=".ui.alarm.AlarmReleaseService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
+            </intent-filter>
+        </service>
+
         <provider
             android:authorities="io.github.romadhonbyar.movie"
             android:name="io.github.romadhonbyar.movie.provider.FavorieProvider"
             android:exported="true"
             android:readPermission="io.github.romadhonbyar.movie.READ_DATABASE"
             android:writePermission="io.github.romadhonbyar.movie.WRITE_DATABASE" />
+
 
     </application>
 

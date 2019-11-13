@@ -3,6 +3,9 @@ package io.github.romadhonbyar.movie.helper;
 import android.annotation.SuppressLint;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class FormatData {
@@ -30,5 +33,12 @@ public class FormatData {
     public static String currencyFormat(String amount) {
         DecimalFormat formatter = new DecimalFormat("###,###,##0.00");
         return formatter.format(Double.parseDouble(amount));
+    }
+
+    public static String dateFormat(){
+        Date nowDate = Calendar.getInstance().getTime();
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(nowDate);
     }
 }

@@ -31,6 +31,7 @@ public class SettingsActivity extends AppCompatActivity {
     private Switch reRelease;
     private Switch reDaily;
 
+    private AlarmReleaseReceiver alarmReleaseReceiver;
     private AlarmDailyReceiver alarmDailyReceiver;
 
     @Override
@@ -44,9 +45,6 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-
-        String repeatTimeDaily = "07:00";
-        String repeatTimeRelease = "06:20";
 
         if (savedInstanceState != null) {
             String message = savedInstanceState.getString("message");
@@ -64,7 +62,6 @@ public class SettingsActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);
 
-        alarmDailyReceiver = new AlarmDailyReceiver();
 
         RadioButton rb_g1 = findViewById(R.id.radio_indonesian);
         RadioButton rb_g2 = findViewById(R.id.radio_english);
@@ -80,19 +77,18 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
 
-
-        /* Reminder */
+        /*=== Reminder ===*/
         SharedPreferences preferences = this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
-        String isVibrate = preferences.getString(SHARED_SETTING_RELEASE, "off");
-        String isSound = preferences.getString(SHARED_SETTING_DAILY, "off");
-        Log.wtf(TAG, isSound);
-        Log.wtf(TAG, isVibrate);
-
-        reRelease = findViewById(R.id.switchRelease);
+        String isRELEASE = preferences.getString(SHARED_SETTING_RELEASE, "off");
+        String isDAILY = preferences.getString(SHARED_SETTING_DAILY, "off");
+        Log.wtf(TAG, isRELEASE);
+        Log.wtf(TAG, isDAILY);
 
         /* Reminder Release */
-        if (Objects.equals(isVibrate, "on")) {
+        alarmReleaseReceiver = new AlarmReleaseReceiver();
+        reRelease = findViewById(R.id.switchRelease);
+        if (Objects.equals(isRELEASE, "on")) {
             reRelease.setChecked(true);
         } else {
             reRelease.setChecked(false);
@@ -104,13 +100,13 @@ public class SettingsActivity extends AppCompatActivity {
                 editor.putString(SHARED_SETTING_RELEASE, "on");
                 editor.apply();
 
-                //alarmDailyReceiver.setRepeatingAlarm(this, AlarmDailyReceiver.TYPE_REPEATING, repeatTimeRelease, "AAA miss you!");
+                alarmReleaseReceiver.setRepeatingAlarm(SettingsActivity.this);
             } else {
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString(SHARED_SETTING_RELEASE, "off");
                 editor.apply();
 
-                //alarmDailyReceiver.cancelAlarm(this, AlarmDailyReceiver.TYPE_REPEATING);
+                alarmReleaseReceiver.cancelAlarm(SettingsActivity.this);
             }
         });
 
@@ -119,19 +115,19 @@ public class SettingsActivity extends AppCompatActivity {
             editor.putString(SHARED_SETTING_RELEASE, "on");
             editor.apply();
 
-                //alarmDailyReceiver.setRepeatingAlarm(this, AlarmDailyReceiver.TYPE_REPEATING, repeatTimeRelease, "AAA miss you!");
+            alarmReleaseReceiver.setRepeatingAlarm(SettingsActivity.this);
         } else {
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString(SHARED_SETTING_RELEASE, "off");
             editor.apply();
 
-            //alarmDailyReceiver.cancelAlarm(this, AlarmDailyReceiver.TYPE_REPEATING);
+            alarmReleaseReceiver.cancelAlarm(SettingsActivity.this);
         }
 
-        reDaily = findViewById(R.id.switchDaily);
-
         /* Daily Reminder  */
-        if (Objects.equals(isSound, "on")) {
+        alarmDailyReceiver = new AlarmDailyReceiver();
+        reDaily = findViewById(R.id.switchDaily);
+        if (Objects.equals(isDAILY, "on")) {
             reDaily.setChecked(true);
         } else {
             reDaily.setChecked(false);

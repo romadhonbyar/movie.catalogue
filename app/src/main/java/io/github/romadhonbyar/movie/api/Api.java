@@ -1,6 +1,7 @@
 package io.github.romadhonbyar.movie.api;
 
 
+import io.github.romadhonbyar.movie.ui.alarm.model.MovieReleaseModel;
 import io.github.romadhonbyar.movie.ui.movies.model.detail.MoviesDetailModel;
 import io.github.romadhonbyar.movie.ui.movies.model.main.MoviesModel;
 import io.github.romadhonbyar.movie.ui.tv_shows.model.detail.TVShowsDetailModel;
@@ -49,4 +50,10 @@ public interface Api {
     Call<TVShowsModel> getTVSearch(@Query("api_key") String api_key,
                                    @Query("language") String language,
                                    @Query("query") String query);
+
+    @Headers("Content-Type: application/json")
+    @GET("discover/movie")
+    Call<MovieReleaseModel> getMovieRelease(@Query("api_key") String apiKey,
+                                            @Query("primary_release_date.gte") String date_gte,
+                                            @Query("primary_release_date.lte") String date_lte);
 }

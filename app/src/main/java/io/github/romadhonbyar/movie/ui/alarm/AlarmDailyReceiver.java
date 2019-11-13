@@ -23,7 +23,7 @@ import io.github.romadhonbyar.movie.R;
 import io.github.romadhonbyar.movie.api.Global;
 
 public class AlarmDailyReceiver extends BroadcastReceiver {
-    private static int ID_REPEATING = 101;
+    private static int ID_REPEATING_daily = 101;
 
     public AlarmDailyReceiver() {
     }
@@ -31,7 +31,7 @@ public class AlarmDailyReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         showToast(context, context.getString(R.string.app_name), context.getString(R.string.message_daily));
-        showAlarmNotification(context, context.getString(R.string.app_name), context.getString(R.string.message_daily), ID_REPEATING);
+        showAlarmNotification(context, context.getString(R.string.app_name), context.getString(R.string.message_daily), ID_REPEATING_daily);
     }
 
     private void showToast(Context context, String title, String message) {
@@ -87,7 +87,7 @@ public class AlarmDailyReceiver extends BroadcastReceiver {
         calendar.set(Calendar.MINUTE, Global.MINUTE_daily);
         calendar.set(Calendar.SECOND, Global.SECOND_daily);
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, ID_REPEATING, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, ID_REPEATING_daily, intent, 0);
         if (alarmManager != null) {
             alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }
@@ -98,7 +98,7 @@ public class AlarmDailyReceiver extends BroadcastReceiver {
     public void cancelAlarm(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmDailyReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, ID_REPEATING, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, ID_REPEATING_daily, intent, 0);
         pendingIntent.cancel();
 
         if (alarmManager != null) {
