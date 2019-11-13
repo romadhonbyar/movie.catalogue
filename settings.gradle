@@ -1,2 +1,2 @@
-include ':app'
-rootProject.name='Movie Catalogue (Local Storage) - S5'
+include ':app', ':cusapp'
+rootProject.name='Movie Catalogue'

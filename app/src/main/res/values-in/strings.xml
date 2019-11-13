@@ -26,8 +26,7 @@
     <string name="image_view_revenue">Image View Revenue</string>
     <string name="image_view_genres">Image View Genres</string>
 
-    <string name="menu_language_settings">Atur Bahasa</string>
-    <string name="change_language_settings">Bahasa</string>
+    <string name="settings">Pengaturan</string>
     <string name="lang_indonesian">Bahasa Indonesia</string>
     <string name="lang_english">Bahasa Inggris</string>
     <string name="select_a_language">Pilih bahasa</string>
@@ -51,6 +50,14 @@
     <string name="mes_delete">Berhasil dihapus dari favorit!</string>
 
     <string name="mes_no_data">Tidak ada data!</string>
-    <string name="appwidget_text">STAR WARS BANNER</string>
+    <string name="appwidget_text">Favorit Saya</string>
     <string name="add_widget">Tambah widget</string>
+
+
+    <!--
+    <string name="default_notification_channel">Subscribed</string>
+    <string name="msg_release_subscribed">Subscribed to release topic</string>
+    <string name="msg_release_unsubscribed">Unsubscribed to release topic</string>
+    <string name="msg_daily_subscribed">Subscribed to daily topic</string>
+    <string name="msg_daily_unsubscribed">Unsubscribed to daily topic</string>-->
 </resources>
