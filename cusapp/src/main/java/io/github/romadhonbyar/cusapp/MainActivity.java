@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
@@ -29,7 +31,6 @@ public class MainActivity extends AppCompatActivity implements LoadNotesCallback
     private ProgressBar progressBar;
     private RecyclerView rvNotes;
     private FavAdapter adapter;
-    private DataObserver myObserver;
 
     private static final String EXTRA_STATE = "EXTRA_STATE";
 
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements LoadNotesCallback
         HandlerThread handlerThread = new HandlerThread("DataObserver");
         handlerThread.start();
         Handler handler = new Handler(handlerThread.getLooper());
-        myObserver = new DataObserver(handler, this);
+        DataObserver myObserver = new DataObserver(handler, this);
         getContentResolver().registerContentObserver(CONTENT_URI, true, myObserver);
 
         if (savedInstanceState == null) {
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements LoadNotesCallback
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NotNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(EXTRA_STATE, adapter.getListNotes());
     }
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements LoadNotesCallback
             adapter.setListNotes(notes);
         } else {
             adapter.setListNotes(new ArrayList<Fav>());
-            showSnackbarMessage("Tidak ada data saat ini");
+            showSnackbarMessage(getApplicationContext().getString(R.string.mes_no_data));
         }
     }
 
@@ -100,13 +101,6 @@ public class MainActivity extends AppCompatActivity implements LoadNotesCallback
             weakContext = new WeakReference<>(context);
             weakCallback = new WeakReference<>(callback);
         }
-
-        /*
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            weakCallback.get().preExecute();
-        }*/
 
         @Override
         protected ArrayList<Fav> doInBackground(Void... voids) {
@@ -128,10 +122,12 @@ public class MainActivity extends AppCompatActivity implements LoadNotesCallback
 
     public static class DataObserver extends ContentObserver {
         final Context context;
+
         DataObserver(Handler handler, Context context) {
             super(handler);
             this.context = context;
         }
+
         @Override
         public void onChange(boolean selfChange) {
             super.onChange(selfChange);
@@ -142,5 +138,6 @@ public class MainActivity extends AppCompatActivity implements LoadNotesCallback
 
 interface LoadNotesCallback {
     void preExecute();
+
     void postExecute(ArrayList<Fav> notes);
 }

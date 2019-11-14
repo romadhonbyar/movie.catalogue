@@ -40,7 +40,6 @@ import io.github.romadhonbyar.movie.ui.tv_shows.model.main.TVShowsModelResults;
 
 import static io.github.romadhonbyar.movie.api.Global.PathImage;
 
-
 public class TVShowsAdapter extends RecyclerView.Adapter<TVShowsAdapter.RvViewHolder> implements Filterable {
     private Context mCtx;
     private List<TVShowsModelResults> pList;
@@ -166,6 +165,7 @@ public class TVShowsAdapter extends RecyclerView.Adapter<TVShowsAdapter.RvViewHo
                     .commit();
         }
     }
+
     @Override
     public Filter getFilter() {
         return new Filter() {

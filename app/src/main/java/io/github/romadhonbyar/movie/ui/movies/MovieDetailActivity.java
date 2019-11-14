@@ -47,7 +47,6 @@ import static io.github.romadhonbyar.movie.BuildConfig.API_KEY;
 import static io.github.romadhonbyar.movie.api.Global.PathImage;
 import static io.github.romadhonbyar.movie.helper.FormatData.currencyFormat;
 
-
 public class MovieDetailActivity extends AppCompatActivity {
     Toolbar mToolbar;
     CollapsingToolbarLayout collapsingToolbarLayout;

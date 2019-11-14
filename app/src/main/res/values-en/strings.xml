@@ -63,6 +63,8 @@
     <string name="reminder_daily">Daily Reminder</string>
     <string name="reminder_daily_desc">Reminder for return to app</string>
 
+    <string name="notif_reminder_release_desc"> has been release today!</string>
+
     <!--
     <string name="default_notification_channel">Subscribed</string>
     <string name="msg_release_subscribed">Subscribed to release topic</string>

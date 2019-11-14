@@ -23,9 +23,7 @@ import io.github.romadhonbyar.movie.ui.favorite.db.Fav;
 
 import static io.github.romadhonbyar.movie.api.Global.PathImage;
 
-
 class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
-    private AppDatabase db;
     private List<Fav> daftarFav = new ArrayList<>();
     private final Context mContext;
 
@@ -35,12 +33,11 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onCreate() {
-        //required
     }
 
     @Override
     public void onDataSetChanged() {
-        db = Room.databaseBuilder(mContext, AppDatabase.class, "favorite_db").allowMainThreadQueries().build();
+        AppDatabase db = Room.databaseBuilder(mContext, AppDatabase.class, "favorite_db").allowMainThreadQueries().build();
         daftarFav = Arrays.asList(db.favDAO().readDataFav());
     }
 

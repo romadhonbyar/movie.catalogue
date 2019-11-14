@@ -28,8 +28,6 @@ import static io.github.romadhonbyar.movie.api.Api.SHARED_SETTING_RELEASE;
 
 public class SettingsActivity extends AppCompatActivity {
     private static final String TAG = "SettingsActivity :::";
-    private Switch reRelease;
-    private Switch reDaily;
 
     private AlarmReleaseReceiver alarmReleaseReceiver;
     private AlarmDailyReceiver alarmDailyReceiver;
@@ -87,7 +85,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         /* Reminder Release */
         alarmReleaseReceiver = new AlarmReleaseReceiver();
-        reRelease = findViewById(R.id.switchRelease);
+        Switch reRelease = findViewById(R.id.switchRelease);
         if (Objects.equals(isRELEASE, "on")) {
             reRelease.setChecked(true);
         } else {
@@ -126,7 +124,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         /* Daily Reminder  */
         alarmDailyReceiver = new AlarmDailyReceiver();
-        reDaily = findViewById(R.id.switchDaily);
+        Switch reDaily = findViewById(R.id.switchDaily);
         if (Objects.equals(isDAILY, "on")) {
             reDaily.setChecked(true);
         } else {

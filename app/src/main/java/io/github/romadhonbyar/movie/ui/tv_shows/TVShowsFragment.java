@@ -52,11 +52,9 @@ public class TVShowsFragment extends Fragment {
     private RecyclerView recyclerView;
     private TVShowsAdapter adapter;
     private List<TVShowsModelResults> pList = new ArrayList<>();
-    private SearchView searchView;
     private ProgressBar pLoad;
     private String lang;
     private TextView emptyView;
-    private MenuItem search;
 
     public TVShowsFragment() {
 
@@ -270,8 +268,9 @@ public class TVShowsFragment extends Fragment {
         return prefs.getString("your_prefes_tv", null);
     }
 
-    public void hideKeyboard(View view) {
+    private void hideKeyboard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) Objects.requireNonNull(getActivity()).getSystemService(Activity.INPUT_METHOD_SERVICE);
+        assert inputMethodManager != null;
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 

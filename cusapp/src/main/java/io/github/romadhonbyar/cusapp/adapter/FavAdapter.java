@@ -23,7 +23,6 @@ import io.github.romadhonbyar.cusapp.entity.Fav;
 
 import static io.github.romadhonbyar.cusapp.Global.PathImage;
 
-
 public class FavAdapter extends RecyclerView.Adapter<FavAdapter.NoteViewHolder> {
     private final ArrayList<Fav> listNotes = new ArrayList<>();
     private final Activity activity;
@@ -60,16 +59,6 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.NoteViewHolder> 
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .thumbnail(0.1f)
                 .into(holder.imgFav);
-        holder.cvFav.setOnClickListener(new CustomOnItemClickListener(position, new CustomOnItemClickListener.OnItemClickCallback() {
-            @Override
-            public void onItemClicked(View view, int position) {
-                /*
-                Intent intent = new Intent(activity, NoteAddUpdateActivity.class);
-                intent.putExtra(NoteAddUpdateActivity.EXTRA_POSITION, position);
-                intent.putExtra(NoteAddUpdateActivity.EXTRA_NOTE, listNotes.get(position));
-                activity.startActivityForResult(intent, NoteAddUpdateActivity.REQUEST_UPDATE);*/
-            }
-        }));
     }
 
     @Override

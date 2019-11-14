@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">Cun Movie Catalogue</string>
+    <string name="app_name">Cunsumer Movie Catalogue</string>
     <string name="title_movies">Movies</string>
     <string name="title_tv_show">TV Shows</string>
     <string name="name_movies">Movie Name</string>
     <string name="description_movies">Movie Description</string>
+    <string name="mes_no_data">No data!</string>
 </resources>

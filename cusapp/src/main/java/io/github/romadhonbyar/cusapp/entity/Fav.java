@@ -5,19 +5,10 @@ import android.os.Parcelable;
 
 public class Fav implements Parcelable {
 
-    //private int id;
     private String code;
     private String name;
     private String desc;
     private String path;
-
-//    public int getId() {
-//        return id;
-//    }
-//
-//    public void setId(int id) {
-//        this.id = id;
-//    }
 
     public String getKode() {
         return code;
@@ -59,16 +50,13 @@ public class Fav implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        //dest.writeInt(this.id);
         dest.writeString(this.code);
         dest.writeString(this.name);
         dest.writeString(this.desc);
         dest.writeString(this.path);
     }
 
-    //public Fav(int id, String kode, String name, String desc, String path) {
-    public Fav(String kode, String name, String desc, String path) {
-        //this.id = id;
+    public Fav(String code, String name, String desc, String path) {
         this.code = code;
         this.name = name;
         this.desc = desc;
@@ -76,7 +64,6 @@ public class Fav implements Parcelable {
     }
 
     private Fav(Parcel in) {
-        //this.id = in.readInt();
         this.code = in.readString();
         this.name = in.readString();
         this.desc = in.readString();

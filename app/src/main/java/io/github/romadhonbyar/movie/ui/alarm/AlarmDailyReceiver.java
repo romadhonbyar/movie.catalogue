@@ -104,7 +104,5 @@ public class AlarmDailyReceiver extends BroadcastReceiver {
         if (alarmManager != null) {
             alarmManager.cancel(pendingIntent);
         }
-
-        //Toast.makeText(context, context.getString(R.string.message_daily_repeat_cancel), Toast.LENGTH_LONG).show();
     }
 }

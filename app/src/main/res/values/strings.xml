@@ -63,6 +63,8 @@
     <string name="reminder_daily">Daily Reminder</string>
     <string name="reminder_daily_desc">Reminder for return to app</string>
 
+    <string name="notif_reminder_release_desc"> has been release today!</string>
+
     <!--
     <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>

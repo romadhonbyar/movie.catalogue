@@ -1,6 +1,5 @@
 package io.github.romadhonbyar.movie.api;
 
-
 import io.github.romadhonbyar.movie.ui.alarm.model.MovieReleaseModel;
 import io.github.romadhonbyar.movie.ui.movies.model.detail.MoviesDetailModel;
 import io.github.romadhonbyar.movie.ui.movies.model.main.MoviesModel;

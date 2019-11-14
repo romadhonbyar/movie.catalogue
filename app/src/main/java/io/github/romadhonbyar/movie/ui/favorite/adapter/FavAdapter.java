@@ -156,5 +156,4 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
                     .commit();
         }
     }
-
 }

@@ -78,7 +78,6 @@
             android:readPermission="io.github.romadhonbyar.movie.READ_DATABASE"
             android:writePermission="io.github.romadhonbyar.movie.WRITE_DATABASE" />
 
-
     </application>
 
 </manifest>

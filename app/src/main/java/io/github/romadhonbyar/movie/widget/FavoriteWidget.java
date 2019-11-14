@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import io.github.romadhonbyar.movie.R;
 
-
 public class FavoriteWidget extends AppWidgetProvider {
 
     private static final String TOAST_ACTION = "fav.TOAST_ACTION";
@@ -49,9 +48,8 @@ public class FavoriteWidget extends AppWidgetProvider {
         super.onReceive(context, intent);
         if (intent.getAction() != null) {
             if (intent.getAction().equals(TOAST_ACTION)) {
-                int viewIndex = intent.getIntExtra(EXTRA_ITEM, 0);
                 String name = intent.getStringExtra(EXTRA_NAME);
-                Toast.makeText(context, "Touched view " + name, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, ">> " + name + " <<", Toast.LENGTH_SHORT).show();
             }
         }
     }

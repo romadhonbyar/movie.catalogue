@@ -1,6 +1,5 @@
 package io.github.romadhonbyar.movie.provider;
 
-import android.annotation.SuppressLint;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
@@ -18,19 +17,18 @@ import io.github.romadhonbyar.movie.ui.favorite.db.AppDatabase;
 import static io.github.romadhonbyar.movie.provider.DatabaseContract.AUTHORITY;
 import static io.github.romadhonbyar.movie.provider.DatabaseContract.NoteColumns.TABLE_NAME;
 
-
 public class FavorieProvider extends ContentProvider {
 
-    private static final int NOTE = 1;
-    private static final int NOTE_ID = 2;
+    private static final int FAV = 1;
+    private static final int FAV_ID = 2;
 
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
-        sUriMatcher.addURI(AUTHORITY, TABLE_NAME, NOTE);
+        sUriMatcher.addURI(AUTHORITY, TABLE_NAME, FAV);
         sUriMatcher.addURI(AUTHORITY,
                 TABLE_NAME + "/#",
-                NOTE_ID);
+                FAV_ID);
     }
 
     @Override
@@ -42,7 +40,7 @@ public class FavorieProvider extends ContentProvider {
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         Cursor cursor;
-        if (sUriMatcher.match(uri) == NOTE) {
+        if (sUriMatcher.match(uri) == FAV) {
             AppDatabase db = Room.databaseBuilder(Objects.requireNonNull(getContext()), AppDatabase.class, "favorite_db").build();
             cursor = db.favDAO().readAllDataFav();
         } else {

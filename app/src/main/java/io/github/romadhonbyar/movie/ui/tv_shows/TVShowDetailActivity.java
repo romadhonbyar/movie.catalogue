@@ -46,7 +46,6 @@ import static io.github.romadhonbyar.movie.BuildConfig.API_KEY;
 import static io.github.romadhonbyar.movie.api.Global.PathImage;
 import static io.github.romadhonbyar.movie.helper.FormatData.minuteToFullTime;
 
-
 public class TVShowDetailActivity extends AppCompatActivity {
     Toolbar mToolbar;
     CollapsingToolbarLayout collapsingToolbarLayout;

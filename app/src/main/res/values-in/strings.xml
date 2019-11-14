@@ -63,6 +63,8 @@
     <string name="reminder_daily">Pengingat Harian</string>
     <string name="reminder_daily_desc">Pengingat untuk kembali ke aplikasi</string>
 
+    <string name="notif_reminder_release_desc"> telah dirilis hari ini!</string>
+
     <!--
     <string name="default_notification_channel">Subscribed</string>
     <string name="msg_release_subscribed">Subscribed to release topic</string>

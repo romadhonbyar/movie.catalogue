@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.widget.Toast;
 
 import com.firebase.jobdispatcher.Constraint;
@@ -24,7 +23,6 @@ import io.github.romadhonbyar.movie.api.Global;
 public class AlarmReleaseReceiver extends BroadcastReceiver {
     public static int ID_REPEATING_release = 111;
     private FirebaseJobDispatcher mDispatcher;
-    private String DISPATCHER_TAG = "mydispatcher";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -32,11 +30,8 @@ public class AlarmReleaseReceiver extends BroadcastReceiver {
         startDispatcher();
     }
 
-    private void showToast(Context context, String title, String message) {
-        Toast.makeText(context, title + ": " + message, Toast.LENGTH_LONG).show();
-    }
-
     public void startDispatcher() {
+        String DISPATCHER_TAG = "mydispatcher";
         Job myJob = mDispatcher.newJobBuilder()
                 .setService(AlarmReleaseService.class)
                 .setTag(DISPATCHER_TAG)
@@ -49,10 +44,6 @@ public class AlarmReleaseReceiver extends BroadcastReceiver {
                 .build();
 
         mDispatcher.mustSchedule(myJob);
-    }
-
-    public void cancelDispatcher() {
-        mDispatcher.cancel(DISPATCHER_TAG);
     }
 
     public void setRepeatingAlarm(Context context) {
@@ -80,7 +71,5 @@ public class AlarmReleaseReceiver extends BroadcastReceiver {
         if (alarmManager != null) {
             alarmManager.cancel(pendingIntent);
         }
-
-        //Toast.makeText(context, context.getString(R.string.message_daily_repeat_cancel), Toast.LENGTH_LONG).show();
     }
 }

@@ -6,7 +6,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -20,15 +19,12 @@ import androidx.core.content.ContextCompat;
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import io.github.romadhonbyar.movie.MainActivity;
 import io.github.romadhonbyar.movie.R;
 import io.github.romadhonbyar.movie.api.RetrofitClient;
 import io.github.romadhonbyar.movie.ui.alarm.model.MovieReleaseModel;
-import io.github.romadhonbyar.movie.ui.alarm.model.MovieReleaseResultModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,13 +41,12 @@ public class AlarmReleaseService extends JobService {
                 if (response.code() == 200 && response.isSuccessful()) {
                     MovieReleaseModel myData = Objects.requireNonNull(response.body());
                     try {
-                        //Membatasi jumlah notif sebanyak 5 data
-                        for (int a=0; a < 5; a++){
-                            String message_desc = myData.getResults().get(a).getOriginalTitle() + " has been release today!";
+                        for (int a = 0; a < 5; a++) {
+                            String message_desc = myData.getResults().get(a).getOriginalTitle() + getApplicationContext().getString(R.string.notif_reminder_release_desc);
                             showAlarmNotification(getApplicationContext(), myData.getResults().get(a).getOriginalTitle(), message_desc, a);
                             jobFinished(job, false);
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         jobFinished(job, true);
                         e.printStackTrace();
                     }

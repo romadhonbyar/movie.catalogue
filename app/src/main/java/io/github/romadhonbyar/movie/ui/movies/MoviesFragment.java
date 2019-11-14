@@ -48,16 +48,13 @@ import retrofit2.Response;
 
 import static io.github.romadhonbyar.movie.BuildConfig.API_KEY;
 
-
 public class MoviesFragment extends Fragment {
     private RecyclerView recyclerView;
     private MoviesAdapter adapter;
     private List<MoviesModelResults> pList = new ArrayList<>();
-    private SearchView searchView;
     private ProgressBar pLoad;
     private String lang;
     private TextView emptyView;
-    private MenuItem search;
 
     public MoviesFragment() {
 
@@ -204,8 +201,8 @@ public class MoviesFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.main_menu, menu);
 
-        search = menu.findItem(R.id.search);
-        searchView = (SearchView) MenuItemCompat.getActionView(search);
+        MenuItem search = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
         search(searchView);
 
         super.onCreateOptionsMenu(menu, inflater);
@@ -271,8 +268,9 @@ public class MoviesFragment extends Fragment {
         return prefs.getString("your_prefes_movie", null);
     }
 
-    public void hideKeyboard(View view) {
+    private void hideKeyboard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) Objects.requireNonNull(getActivity()).getSystemService(Activity.INPUT_METHOD_SERVICE);
+        assert inputMethodManager != null;
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
